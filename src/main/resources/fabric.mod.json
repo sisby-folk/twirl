@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "twirl",
+  "version": "${version}",
+  "name": "Twirl Map Framework",
+  "description": "A wasteful but flexible library for client-side world maps (and serverside companion mod for those maps)",
+  "authors": [
+    "Sisby folk"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/twirl",
+    "issues": "https://github.com/sisby-folk/twirl/issues",
+    "sources": "https://github.com/sisby-folk/twirl"
+  },
+  "icon": "assets/twirl/icon.png",
+  "license": "LGPL-3.0-only",
+  "entrypoints": {
+    "main": [
+      "folk.sisby.twirl.Twirl"
+    ]
+  },
+  "depends": {
+    "minecraft": ">=1.21-",
+    "fabricloader": ">=${fl}",
+    "fabric-api": ">=${fapi}"
+  },
+  "mixins": [
+    "twirl.mixins.json"
+  ]
+}
