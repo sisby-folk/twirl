@@ -12,6 +12,7 @@ public class Twirl implements ModInitializer {
     public static final String ID = "twirl";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
     public static final TagKey<Enchantment> TWIRLING = TagKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(ID, "twirling"));
+    public static final float TWIRL_SPEED = 30.0f;
 
     @Override
     public void onInitialize() {
