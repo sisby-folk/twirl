@@ -2,6 +2,7 @@
 
 
 <center>
+<img alt="preview" src="https://cdn.modrinth.com/data/l6f8KaeX/images/5dcbf075381d8c9073378aaf13d536d22b66ccb4.gif"><br/>
 Adds a less-than-useless enchantment (curse) that replaces the use action with a twirl!<br/>
 <i>I'll try spinning! That's a good trick!</i><br/>
 </center>
