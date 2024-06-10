@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -20,6 +21,11 @@ public class Twirl implements ModInitializer {
     public static final String ID = "twirl";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
     public static final TagKey<Enchantment> TWIRLING = TagKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(ID, "twirling"));
+    public static final TagKey<Item> KEEP_USE = TagKey.of(RegistryKeys.ITEM, Identifier.of(ID, "keep_use"));
+    public static final TagKey<Item> KEEP_TICK = TagKey.of(RegistryKeys.ITEM, Identifier.of(ID, "keep_tick"));
+    public static final TagKey<Item> KEEP_FINISH = TagKey.of(RegistryKeys.ITEM, Identifier.of(ID, "keep_finish"));
+    public static final TagKey<Item> KEEP_ACTION = TagKey.of(RegistryKeys.ITEM, Identifier.of(ID, "keep_action"));
+    public static final TagKey<Item> ROTATE_Z = TagKey.of(RegistryKeys.ITEM, Identifier.of(ID, "rotate_z"));
     public static final float TWIRL_SPEED = 20.0f;
     public static final List<UseAction> STYLES = List.of(
         UseAction.SPYGLASS,

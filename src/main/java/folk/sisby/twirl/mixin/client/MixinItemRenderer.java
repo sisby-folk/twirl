@@ -27,7 +27,8 @@ public class MixinItemRenderer {
             float tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
             matrices.translate(0.1f, 0.0f, 0.0f);
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(15f));
-            matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(((float) entity.getItemUseTime() + tickDelta) * twirlingLevel * Twirl.TWIRL_SPEED));
+            RotationAxis axis = item.isIn(Twirl.ROTATE_Z) ? RotationAxis.NEGATIVE_Z : RotationAxis.NEGATIVE_X;
+            matrices.multiply(axis.rotationDegrees(((float) entity.getItemUseTime() + tickDelta) * twirlingLevel * Twirl.TWIRL_SPEED));
         }
     }
 

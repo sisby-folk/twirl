@@ -27,14 +27,14 @@ public class MixinItemStack {
             twirl$style = (twirl$style + 1) % Twirl.STYLES.size();
             user.setCurrentHand(hand);
             cir.setReturnValue(TypedActionResult.consume(self));
-            cir.cancel();
+            if (!self.isIn(Twirl.KEEP_USE)) cir.cancel();
         }
     }
 
     @Inject(method = "usageTick", at = @At("HEAD"), cancellable = true)
     public void usageTick(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
         ItemStack self = (ItemStack) (Object) this;
-        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING)) {
+        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !self.isIn(Twirl.KEEP_TICK)) {
             ci.cancel();
         }
     }
@@ -42,7 +42,7 @@ public class MixinItemStack {
     @Inject(method = "getUseAction", at = @At("HEAD"), cancellable = true)
     public void getUseAction(CallbackInfoReturnable<UseAction> cir) {
         ItemStack self = (ItemStack) (Object) this;
-        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING)) {
+        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !self.isIn(Twirl.KEEP_ACTION)) {
             cir.setReturnValue(Twirl.STYLES.get(twirl$style));
             cir.cancel();
         }
@@ -51,7 +51,7 @@ public class MixinItemStack {
     @Inject(method = "getMaxUseTime", at = @At("HEAD"), cancellable = true)
     public void getMaxUseTime(LivingEntity user, CallbackInfoReturnable<Integer> cir) {
         ItemStack self = (ItemStack) (Object) this;
-        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING)) {
+        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !self.isIn(Twirl.KEEP_FINISH)) {
             cir.setReturnValue(7200);
             cir.cancel();
         }
@@ -60,7 +60,7 @@ public class MixinItemStack {
     @Inject(method = "usageTick", at = @At("HEAD"), cancellable = true)
     public void finishUsing(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
         ItemStack self = (ItemStack) (Object) this;
-        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING)) {
+        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !self.isIn(Twirl.KEEP_FINISH)) {
             ci.cancel();
         }
     }
