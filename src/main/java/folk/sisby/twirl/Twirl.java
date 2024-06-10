@@ -1,8 +1,13 @@
 package folk.sisby.twirl;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.UseAction;
@@ -15,7 +20,7 @@ public class Twirl implements ModInitializer {
     public static final String ID = "twirl";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
     public static final TagKey<Enchantment> TWIRLING = TagKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(ID, "twirling"));
-    public static final float TWIRL_SPEED = 30.0f;
+    public static final float TWIRL_SPEED = 20.0f;
     public static final List<UseAction> STYLES = List.of(
         UseAction.SPYGLASS,
         UseAction.NONE,
@@ -28,6 +33,20 @@ public class Twirl implements ModInitializer {
         UseAction.TOOT_HORN,
         UseAction.NONE
     );
+
+    public static int getLevelIn(ItemStack stack, TagKey<Enchantment> tag) {
+        ItemEnchantmentsComponent itemEnchantmentsComponent = stack.getOrDefault(
+            DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT
+        );
+
+        for(Object2IntMap.Entry<RegistryEntry<Enchantment>> entry : itemEnchantmentsComponent.getEnchantmentEntries()) {
+            if (entry.getKey().isIn(tag)) {
+                return entry.getIntValue();
+            }
+        }
+
+        return 0;
+    }
 
     @Override
     public void onInitialize() {

@@ -6,14 +6,14 @@
       "item": "minecraft:book"
     },
     {
-      "item": "minecraft:feather"
+      "item": "minecraft:breeze_rod"
     }
   ],
   "result": {
     "id": "minecraft:enchanted_book",
     "components": {
       "minecraft:stored_enchantments": {
-        "twirl:twirling": 1
+        "twirl:twirling": 4
       }
     }
   }

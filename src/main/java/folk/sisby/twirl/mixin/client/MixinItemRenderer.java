@@ -6,7 +6,6 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.RotationAxis;
@@ -23,11 +22,12 @@ public class MixinItemRenderer {
         LivingEntity entity, ItemStack item, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int light, int overlay, int seed, CallbackInfo ci
     ) {
         matrices.push();
-        if (EnchantmentHelper.hasAnyEnchantmentsIn(item, Twirl.TWIRLING) && entity.isUsingItem() && entity.getActiveItem() == item) {
+        int twirlingLevel = Twirl.getLevelIn(item, Twirl.TWIRLING);
+        if (twirlingLevel > 0 && entity.isUsingItem() && entity.getActiveItem() == item) {
             float tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
             matrices.translate(0.1f, 0.0f, 0.0f);
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(15f));
-            matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(((float) entity.getItemUseTime() + tickDelta) * Twirl.TWIRL_SPEED));
+            matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(((float) entity.getItemUseTime() + tickDelta) * twirlingLevel * Twirl.TWIRL_SPEED));
         }
     }
 
