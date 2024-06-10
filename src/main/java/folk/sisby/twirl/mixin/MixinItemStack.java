@@ -56,4 +56,12 @@ public class MixinItemStack {
             cir.cancel();
         }
     }
+
+    @Inject(method = "usageTick", at = @At("HEAD"), cancellable = true)
+    public void finishUsing(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
+        ItemStack self = (ItemStack) (Object) this;
+        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING)) {
+            ci.cancel();
+        }
+    }
 }
