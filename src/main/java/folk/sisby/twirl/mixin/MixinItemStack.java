@@ -18,10 +18,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @SuppressWarnings("UnreachableCode")
 @Mixin(ItemStack.class)
 public class MixinItemStack {
+    private int twirl$style = 0;
+
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
         ItemStack self = user.getStackInHand(hand);
         if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING)) {
+            twirl$style = (twirl$style + 1) % Twirl.STYLES.size();
             user.setCurrentHand(hand);
             cir.setReturnValue(TypedActionResult.consume(self));
             cir.cancel();
@@ -40,7 +43,7 @@ public class MixinItemStack {
     public void getUseAction(CallbackInfoReturnable<UseAction> cir) {
         ItemStack self = (ItemStack) (Object) this;
         if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING)) {
-            cir.setReturnValue(UseAction.NONE);
+            cir.setReturnValue(Twirl.STYLES.get(twirl$style));
             cir.cancel();
         }
     }
