@@ -22,7 +22,7 @@ Item-specific behaviour can be altered with these item tags:
 - `#twirl:keep_tick` - allows the original item's `usageTick()` to run.
 - `#twirl:keep_finish` - allows the original item's `onStoppedUsing()` to run.
 - `#twirl:keep_action` - preserves the original item's `getUseAction()` result.
-- `#twirl:rotate_z` - spin in the other sensible axes instead.
+- `#twirl:rotate_z` - spin in the other sensible axis instead.
 
 ## Afterword
 
