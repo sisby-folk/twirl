@@ -23,11 +23,12 @@ public class MixinItemRenderer {
     ) {
         matrices.push();
         int twirlingLevel = Twirl.getLevelIn(item, Twirl.TWIRLING);
-        if (twirlingLevel > 0 && entity.isUsingItem() && entity.getActiveItem() == item) {
+        boolean mainHand = entity.getActiveItem() == item;
+        if (twirlingLevel > 0 && entity.isUsingItem() && (mainHand || Twirl.getLevelIn(entity.getActiveItem(), Twirl.TWIRLING) > 0)) {
             float tickDelta = MinecraftClient.getInstance().getRenderTickCounter().getTickDelta(false);
             matrices.translate(leftHanded ? -0.1f : 0.1f, 0.0f, 0.0f);
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(leftHanded ? -15f : 15f));
-            RotationAxis axis = item.isIn(Twirl.ROTATE_Z) ? RotationAxis.NEGATIVE_Z : RotationAxis.NEGATIVE_X;
+            RotationAxis axis = item.isIn(Twirl.ROTATE_Z) && mainHand ? RotationAxis.NEGATIVE_Z : RotationAxis.NEGATIVE_X;
             matrices.multiply(axis.rotationDegrees(((float) entity.getItemUseTime() + tickDelta) * twirlingLevel * Twirl.TWIRL_SPEED));
         }
     }
