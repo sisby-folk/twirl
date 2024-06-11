@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "twirl",
   "version": "${version}",
-  "name": "Twirl Map Framework",
+  "name": "Twirl!",
   "description": "A wasteful but flexible library for client-side world maps (and serverside companion mod for those maps)",
   "authors": [
     "Sisby folk"
