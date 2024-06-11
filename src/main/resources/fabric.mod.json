@@ -3,7 +3,7 @@
   "id": "twirl",
   "version": "${version}",
   "name": "Twirl!",
-  "description": "A wasteful but flexible library for client-side world maps (and serverside companion mod for those maps)",
+  "description": "Adds the \"Twirling\" enchantment, which replaces the use action with pointless spinning.",
   "authors": [
     "Sisby folk"
   ],

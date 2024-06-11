@@ -15,6 +15,15 @@ This prevents utilizing the usual use for an item, like drawing a bow or tilling
 
 Books can be enchanted with twirling at a crafting table using feathers, wind charges, or breeze rods.
 
+### Datapacking
+
+Item-specific behaviour can be altered with these item tags:
+- `#twirl:keep_use` - allows the original item's `use()` to run.
+- `#twirl:keep_tick` - allows the original item's `usageTick()` to run.
+- `#twirl:keep_finish` - allows the original item's `onStoppedUsing()` to run.
+- `#twirl:keep_action` - preserves the original item's `getUseAction()` result.
+- `#twirl:rotate_z` - spin in the other sensible axes instead.
+
 ## Afterword
 
 All mods are built on the work of many others.
