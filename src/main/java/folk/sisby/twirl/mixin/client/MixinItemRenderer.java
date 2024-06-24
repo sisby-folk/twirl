@@ -22,6 +22,7 @@ public class MixinItemRenderer {
         LivingEntity entity, ItemStack item, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int light, int overlay, int seed, CallbackInfo ci
     ) {
         matrices.push();
+        if (entity == null) return;
         int twirlingLevel = Twirl.getLevelIn(item, Twirl.TWIRLING);
         boolean mainHand = entity.getActiveItem() == item;
         if (twirlingLevel > 0 && entity.isUsingItem() && (mainHand || Twirl.getLevelIn(entity.getActiveItem(), Twirl.TWIRLING) > 0)) {
