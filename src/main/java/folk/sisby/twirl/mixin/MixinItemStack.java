@@ -21,7 +21,7 @@ public class MixinItemStack {
     private int twirl$style = 0;
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
+    public void twirlingUse(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
         ItemStack self = user.getStackInHand(hand);
         if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING)) {
             twirl$style = (twirl$style + 1) % Twirl.STYLES.size();
@@ -32,7 +32,7 @@ public class MixinItemStack {
     }
 
     @Inject(method = "usageTick", at = @At("HEAD"), cancellable = true)
-    public void usageTick(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
+    public void cancelUsageTick(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
         ItemStack self = (ItemStack) (Object) this;
         if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !self.isIn(Twirl.KEEP_TICK)) {
             ci.cancel();
@@ -40,7 +40,7 @@ public class MixinItemStack {
     }
 
     @Inject(method = "getUseAction", at = @At("HEAD"), cancellable = true)
-    public void getUseAction(CallbackInfoReturnable<UseAction> cir) {
+    public void twirlingUseAction(CallbackInfoReturnable<UseAction> cir) {
         ItemStack self = (ItemStack) (Object) this;
         if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !self.isIn(Twirl.KEEP_ACTION)) {
             cir.setReturnValue(Twirl.STYLES.get(twirl$style));
@@ -49,19 +49,28 @@ public class MixinItemStack {
     }
 
     @Inject(method = "getMaxUseTime", at = @At("HEAD"), cancellable = true)
-    public void getMaxUseTime(LivingEntity user, CallbackInfoReturnable<Integer> cir) {
+    public void twirlingMaxUseTime(LivingEntity user, CallbackInfoReturnable<Integer> cir) {
         ItemStack self = (ItemStack) (Object) this;
-        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !self.isIn(Twirl.KEEP_FINISH)) {
+        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !(self.isIn(Twirl.KEEP_FINISH) || self.isIn(Twirl.KEEP_STOP))) {
             cir.setReturnValue(7200);
             cir.cancel();
         }
     }
 
     @Inject(method = "onStoppedUsing", at = @At("HEAD"), cancellable = true)
-    public void finishUsing(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
+    public void cancelStoppedUsing(World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
+        ItemStack self = (ItemStack) (Object) this;
+        if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !self.isIn(Twirl.KEEP_STOP)) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "finishUsing", at = @At("HEAD"), cancellable = true)
+    public void cancelFinishUsing(World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
         ItemStack self = (ItemStack) (Object) this;
         if (EnchantmentHelper.hasAnyEnchantmentsIn(self, Twirl.TWIRLING) && !self.isIn(Twirl.KEEP_FINISH)) {
-            ci.cancel();
+            cir.setReturnValue(self);
+            cir.cancel();
         }
     }
 }
